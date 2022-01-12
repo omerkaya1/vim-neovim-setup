@@ -19,8 +19,6 @@ Plug 'https://github.com/mkitt/tabline.vim'
 " Golang specific
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' } " https://github.com/fatih/vim-go
 Plug 'neoclide/coc.nvim', {'branch':'release'} " https://github.com/neoclide/coc.nvim
-" Plug 'Shougo/deoplete.nvim' " This shit requires Python 3 :-|
-" Plug 'deoplete-plugins/deoplete-go', { 'do': 'make'} " This shit requires Python 3 :-|
 
 " Color schemas
 Plug 'ajmwagar/vim-deus' " https://github.com/ajmwagar/vim-deus
@@ -78,20 +76,6 @@ au Filetype go nmap <leader>gav <Plug>(go-alternate-vertical)
 
 au FileType go nmap <F10> :GoTest -short<cr> " do ,ga to switch to the test (, - leader key) or ,gav / ,gah to open in a vertical / horizontal split.
 au FileType go nmap <F9> :GoCoverageToggle -short<cr> " Applies coverage mode
-
-if has('nvim')
-    " Enable deoplete on startup
-    let g:deoplete#enable_at_startup = 1
-endif
-
-" Disable deoplete when in multi cursor mode
-function! Multiple_cursors_before()
-    let b:deoplete_disable_auto_complete = 1
-endfunction
-
-function! Multiple_cursors_after()
-    let b:deoplete_disable_auto_complete = 0
-endfunction
 
 " Run :GoBuild or :GoTestCompile based on the go file
 function! s:build_go_files()
