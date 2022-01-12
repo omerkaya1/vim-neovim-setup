@@ -7,7 +7,7 @@
 5. Add a new file for plugins (optional, everything is in init.vim anyways)
     mkdir ~/.config/nvim/vim-plug
 6. Open any file and run `:PlugInstall`
-7. Configure Coc autocomplition and linting
+7. Configure Coc autocompletion and linting
     ``vim -c 'CocInstall -sync coc-go coc-html coc-css coc-json|q'``
 8. Add Coc config: run :CocConfig and add the following:
 
