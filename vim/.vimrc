@@ -1,25 +1,38 @@
-:set number relativenumber
-:set autoindent
-:set mouse=a
-:set smarttab
-:set tabstop=4
-:set shiftwidth=4
-:set softtabstop=4
+set number relativenumber
+set autoindent
+set mouse=a
+set smarttab
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
 
-call plug#begin()
+" Install vim-plug if not found
+" let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+endif
 
-Plug 'http://github.com/tpope/vim-surround'
-Plug 'https://github.com/preservim/nerdtree'
-Plug 'https://github.com/vim-airline/vim-airline'
-Plug 'https://github.com/ctrlpvim/ctrlp.vim'
-Plug 'https://github.com/tpope/vim-commentary'
-Plug 'https://github.com/airblade/vim-gitgutter'
-Plug 'https://github.com/mkitt/tabline.vim'
+" Run PlugInstall if there are missing plugins
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+  \| PlugInstall --sync | source $MYVIMRC
+\| endif
 
+call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
+
+" Language agnostic, general purpose plugins
+Plug 'tpope/vim-surround' " https://github.com/tpope/vim-surround
+Plug 'tpope/vim-fugitive' " https://github.com/tpope/vim-fugitive
+Plug 'tpope/vim-commentary' " https://github.com/tpope/vim-commentary
+Plug 'preservim/nerdtree' " https://github.com/preservim/nerdtree
+Plug 'vim-airline/vim-airline' " https://github.com/vim-airline/vim-airline
+Plug 'ctrlpvim/ctrlp.vim' "https://github.com/ctrlpvim/ctrlp.vim
+Plug 'airblade/vim-gitgutter' " https://github.com/airblade/vim-gitgutter
+Plug 'mkitt/tabline.vim' " https://github.com/mkitt/tabline.vim
+" Code completion
+Plug 'neoclide/coc.nvim', {'branch':'release'} " https://github.com/neoclide/coc.nvim
 " Golang specific
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' } " https://github.com/fatih/vim-go
-Plug 'neoclide/coc.nvim', {'branch':'release'} " https://github.com/neoclide/coc.nvim
-
 " Color schemas
 Plug 'ajmwagar/vim-deus' " https://github.com/ajmwagar/vim-deus
 
@@ -57,15 +70,19 @@ let g:go_fmt_command = "goimports" " We can use goimports or gofmt
 " Status line types/signatures
 let g:go_auto_type_info = 1
 
+" LSP related settings
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
+
+" JSON tags
+let g:go_addtags_transform = "snakecase"
+
 " Error and warning signs.
 let g:ale_sign_error = '⤫'
 let g:ale_sign_warning = '⚠'
 
 " Enable integration with airline.
 let g:airline#extensions#ale#enabled = 1
-
-" JSON tags
-let g:go_addtags_transform = "snakecase"
 
 au FileType go nmap <leader>gt :GoDeclsDir<cr>
 
